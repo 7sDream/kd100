@@ -44,6 +44,8 @@ Example
      2015-08-13 20:41:27 | last content
     =================================================================
 
+..  image:: http://ww4.sinaimg.cn/large/88e401f0gw1evjtouw9hgj20m20cnjyl.jpg
+
 Changelog
 =========
 
