@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function, unicode_literals
+from pylsy.pylsy import pylsytable
 
 try:
     # py2
-    from urllib import urlopen
+    from urllib2 import urlopen
     from urllib import urlencode
+    from urllib2 import Request
 except ImportError:
     # py3
-    from urllib.request import urlopen
+    from urllib.request import urlopen, Request
     from urllib.parse import urlencode
 
 import os
@@ -18,6 +20,7 @@ import random
 
 GUESS = 'http://m.kuaidi100.com/autonumber/auto?{0}'
 QUERY = 'http://m.kuaidi100.com/query?{0}'
+TABLE = pylsytable(['time', 'content'])
 
 
 def format_info(data):
@@ -34,7 +37,8 @@ def format_info(data):
 
 def kd100_query(code, output=None, quite=False):
     params = urlencode({'num': code})
-    res = json.loads(urlopen(GUESS.format(params)).read().decode('utf-8'))
+    guess_url = GUESS.format(params)
+    res = json.loads(urlopen(guess_url).read().decode('utf-8'))
 
     possible_company_name = [company['comCode'] for company in res]
 
@@ -53,7 +57,8 @@ def kd100_query(code, output=None, quite=False):
             'temp': random.random()
         })
 
-        res = json.loads(urlopen(QUERY.format(params)).read().decode('utf-8'))
+        req = Request(QUERY.format(params), headers={'Referer': guess_url})
+        res = json.loads(urlopen(req).read().decode('utf-8'))
 
         if res['message'] == 'ok':
             if not quite:

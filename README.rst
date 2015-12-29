@@ -49,6 +49,10 @@ Example
 Changelog
 =========
 
+- v0.0.2
+
+  - kuaidi100 webside change the rule, need special header referer when send query
+
 - v0.0.1
 
   - first version, with base function.
