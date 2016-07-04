@@ -6,8 +6,8 @@ from __future__ import print_function, unicode_literals
 try:
     # py2
     from urllib2 import urlopen
-    from urllib import urlencode
     from urllib2 import Request
+    from urllib import urlencode
 except ImportError:
     # py3
     from urllib.request import urlopen, Request
@@ -16,10 +16,10 @@ except ImportError:
 import os
 import json
 import random
+import argparse
 
 GUESS = 'http://m.kuaidi100.com/autonumber/auto?{0}'
 QUERY = 'http://m.kuaidi100.com/query?{0}'
-TABLE = pylsytable(['time', 'content'])
 
 
 def format_info(data):
@@ -34,12 +34,15 @@ def format_info(data):
     return res
 
 
-def kd100_query(code, output=None, quite=False):
+def kd100_query(code, output=None, quite=False, company=None):
     params = urlencode({'num': code})
     guess_url = GUESS.format(params)
-    res = json.loads(urlopen(guess_url).read().decode('utf-8'))
 
-    possible_company_name = [company['comCode'] for company in res]
+    if company is None:
+        res = json.loads(urlopen(guess_url).read().decode('utf-8'))
+        possible_company_name = [company['comCode'] for company in res]
+    else:
+        possible_company_name = [str(company)]
 
     if not quite:
         print('Possible company:', ', '.join(possible_company_name))
@@ -61,7 +64,7 @@ def kd100_query(code, output=None, quite=False):
 
         if res['message'] == 'ok':
             if not quite:
-                print('Done')
+                print('Done.\n')
             table = format_info(res)
             if output:
                 with open(output, 'wb') as f:
@@ -75,15 +78,17 @@ def kd100_query(code, output=None, quite=False):
             if not quite:
                 print('Failed.')
     else:
-        if not quite:
-            print('No results.')
+        print('\nNo results.')
 
 
 def main():
-    import argparse
     parser = argparse.ArgumentParser(
         description="query express info use kuaidi100 api")
     parser.add_argument('-c', '--code', type=int, help='express code')
+    parser.add_argument('-p', '--company', type=str,
+                        help='express company, will auto '
+                             'guess company if not provided',
+                        default=None)
     parser.add_argument('-o', '--output', help='output file')
     parser.add_argument('-q', '--quite',
                         help='be quite',
@@ -102,7 +107,7 @@ def main():
                 if not args.quite:
                     print('Please input a number')
 
-    kd100_query(express_code, args.output, args.quite)
+    kd100_query(express_code, args.output, args.quite, args.company)
 
 if __name__ == '__main__':
     main()

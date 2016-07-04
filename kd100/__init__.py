@@ -1,5 +1,4 @@
-__version__ = '0.0.2'
+from .kd100 import kd100_query
+
 __author__ = '7sDream'
-
-from .kd100 import *
-
+__version__ = '0.0.3'

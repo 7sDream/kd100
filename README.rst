@@ -19,6 +19,7 @@ Usage
 
 ``kd100 -c code -o filename``: ``-o`` means output, specified output filename.
 
+``kd100 -c code -o filename -p company_name``: ``-p`` means company, specified the express company name, useful when auto guess is error.
 
 Type ``kd100 -h`` for more help.
 
@@ -48,6 +49,11 @@ Example
 
 Changelog
 =========
+
+- v0.0.3
+
+  - remove third party module dependencies.
+  - add ``-p`` option to specified company.
 
 - v0.0.2
 
