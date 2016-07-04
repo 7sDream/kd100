@@ -50,7 +50,7 @@ Example
 Changelog
 =========
 
-- v0.0.3
+- v0.0.4
 
   - remove third party module dependencies.
   - add ``-p`` option to specified company.
