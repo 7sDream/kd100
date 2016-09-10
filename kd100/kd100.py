@@ -84,7 +84,7 @@ def kd100_query(code, output=None, quite=False, company=None):
 def main():
     parser = argparse.ArgumentParser(
         description="query express info use kuaidi100 api")
-    parser.add_argument('-c', '--code', type=int, help='express code')
+    parser.add_argument('-c', '--code', type=str, help='express code')
     parser.add_argument('-p', '--company', type=str,
                         help='express company, will auto '
                              'guess company if not provided',
@@ -100,8 +100,8 @@ def main():
     if express_code is None:
         while True:
             try:
-                express_code = int(input(
-                    'Input your express code: ' if not args.quite else ''))
+                express_code = input(
+                    'Input your express code: ' if not args.quite else '')
                 break
             except ValueError:
                 if not args.quite:

@@ -50,6 +50,10 @@ Example
 Changelog
 =========
 
+- v0.0.5
+
+  - express code should no long be numbers, to support company like APELAX
+
 - v0.0.4
 
   - remove third party module dependencies.
