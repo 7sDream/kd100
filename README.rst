@@ -45,7 +45,7 @@ Example
      2015-08-13 20:41:27 | last content
     =================================================================
 
-..  image:: http://ww4.sinaimg.cn/large/88e401f0gw1evjtouw9hgj20m20cnjyl.jpg
+..  image:: https://rikka.7sdre.am/files/f3e22970-0740-43a3-8ba5-cf8fac9984e3.png
 
 Changelog
 =========
