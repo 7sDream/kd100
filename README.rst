@@ -1,4 +1,4 @@
-kd100.py
+kd100
 ========
 
 I'm a small script that help you get express package information use kuaidi100.com api.
@@ -49,6 +49,10 @@ Example
 
 Changelog
 =========
+
+- v0.0.6
+
+  - add fake Chrome UA to solve the random result problem
 
 - v0.0.5
 

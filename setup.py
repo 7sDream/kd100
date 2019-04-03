@@ -20,6 +20,7 @@ def extract_version():
             raise RuntimeError('Cannot find version information')
         return str(ast.literal_eval(ast_tree))
 
+
 with open('README.rst', 'rb') as f_readme:
     readme = f_readme.read().decode('utf-8')
 
@@ -35,7 +36,7 @@ setup(
                 'express package information use kuaidi100.com api.',
     long_description=readme,
     author='7sDream',
-    author_email='didislover@gmail.com',
+    author_email='i@7sdre.am',
     license='MIT',
     url='https://github.com/7sDream/kd100',
 

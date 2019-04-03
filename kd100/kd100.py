@@ -5,12 +5,16 @@ from __future__ import print_function, unicode_literals
 
 try:
     # py2
+    # noinspection PyCompatibility
     from urllib2 import urlopen
+    # noinspection PyCompatibility
     from urllib2 import Request
     from urllib import urlencode
 except ImportError:
     # py3
+    # noinspection PyCompatibility
     from urllib.request import urlopen, Request
+    # noinspection PyCompatibility
     from urllib.parse import urlencode
 
 import os
@@ -20,11 +24,12 @@ import argparse
 
 GUESS = 'http://m.kuaidi100.com/autonumber/auto?{0}'
 QUERY = 'http://m.kuaidi100.com/query?{0}'
+FAKE_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) ' \
+          'AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
 
 
 def format_info(data):
-    res = 'code: {nu: <20} company: {com: <15} ' \
-          'is checked: {ischeck}\n'.format(**data)
+    res = 'code: {nu: <20} company: {com: <15} is checked: {ischeck}\n'.format(**data)
     res += '=' * 65 + '\n'
     res += '{0: ^21}|{1: ^44}\n'.format('time', 'content')
     for item in data['data']:
@@ -59,7 +64,14 @@ def kd100_query(code, output=None, quite=False, company=None):
             'temp': random.random()
         })
 
-        req = Request(QUERY.format(params), headers={'Referer': guess_url})
+        req = Request(
+            QUERY.format(params),
+            headers={
+                'Referer': guess_url,
+                'User-Agent': FAKE_UA,
+            },
+        )
+
         res = json.loads(urlopen(req).read().decode('utf-8'))
 
         if res['message'] == 'ok':
@@ -78,22 +90,19 @@ def kd100_query(code, output=None, quite=False, company=None):
             if not quite:
                 print('Failed.')
     else:
-        print('\nNo results.')
+        print('\nNo result.')
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="query express info use kuaidi100 api")
+    parser = argparse.ArgumentParser(description="query express info use kuaidi100 api")
     parser.add_argument('-c', '--code', type=str, help='express code')
-    parser.add_argument('-p', '--company', type=str,
-                        help='express company, will auto '
-                             'guess company if not provided',
-                        default=None)
+    parser.add_argument(
+        '-p', '--company', type=str, default=None,
+        help='express company, will auto guess company if not provided',
+    )
     parser.add_argument('-o', '--output', help='output file')
-    parser.add_argument('-q', '--quite',
-                        help='be quite',
-                        action='store_true',
-                        default=False)
+    parser.add_argument('-q', '--quite', help='be quite', action='store_true', default=False)
+
     args = parser.parse_args()
 
     express_code = args.code
@@ -108,6 +117,7 @@ def main():
                     print('Please input a number')
 
     kd100_query(express_code, args.output, args.quite, args.company)
+
 
 if __name__ == '__main__':
     main()
